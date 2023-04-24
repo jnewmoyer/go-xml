@@ -12,10 +12,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"aqwari.net/xml/internal/gen"
-	"aqwari.net/xml/xmltree"
-	"aqwari.net/xml/xsd"
-	"aqwari.net/xml/xsdgen"
+	"github.com/jnewmoyer/go-xml/internal/gen"
+	"github.com/jnewmoyer/go-xml/xmltree"
+	"github.com/jnewmoyer/go-xml/xsd"
+	"github.com/jnewmoyer/go-xml/xsdgen"
 )
 
 func glob(pat string) string {
@@ -81,10 +81,10 @@ func writeTestFiles(code, tests *ast.File, pkg string) error {
 // schema-generated code. The unit test will do the
 // following:
 //
-// - Unmarshal the sample data (dataFile) into a struct representing
-//   the document described in the XML schema.
-// - Marshal the resulting file back into an XML document.
-// - Compare the two documents for equality.
+//   - Unmarshal the sample data (dataFile) into a struct representing
+//     the document described in the XML schema.
+//   - Marshal the resulting file back into an XML document.
+//   - Compare the two documents for equality.
 //
 // Returns type definitions and unit tests as separate files.
 func genXSDTests(cfg xsdgen.Config, data []byte, pkg string) (code, tests *ast.File, err error) {
@@ -143,7 +143,7 @@ func genXSDTests(cfg xsdgen.Config, data []byte, pkg string) (code, tests *ast.F
 			if len(samples) != 1 {
 				t.Fatal("expected one sample file, found ", samples)
 			}
-			
+
 			input, err := ioutil.ReadFile(samples[0])
 			if err != nil {
 				t.Fatal(err)
@@ -157,17 +157,17 @@ func genXSDTests(cfg xsdgen.Config, data []byte, pkg string) (code, tests *ast.F
 			if err != nil {
 				t.Fatal("marshal: ", err)
 			}
-			
+
 			inputTree, err := xmltree.Parse(input)
 			if err != nil {
 				t.Fatal("{{.Pkg}}: ", err)
 			}
-			
+
 			outputTree, err := xmltree.Parse(output)
 			if err != nil {
 				t.Fatal("remarshal: ", err)
 			}
-			
+
 			if !xmltree.Equal(inputTree, outputTree) {
 				t.Errorf("got \n%s\n, wanted \n%s\n",
 					xmltree.MarshalIndent(outputTree, "", "  "),

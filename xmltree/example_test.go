@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"aqwari.net/xml/xmltree"
+	"github.com/jnewmoyer/go-xml/xmltree"
 )
 
 func ExampleElement_Search() {
@@ -137,7 +137,7 @@ func ExampleUnmarshal() {
 	      <text>An earlier [[revision]].</text>
 	    </revision>
 	  </page>
-	  
+
 	  <page>
 	    <title>Talk:Page title</title>
 	    <revision>
